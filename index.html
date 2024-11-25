@@ -64,8 +64,10 @@
     </div>
 
 <script>
-    document.getElementById('yourScore').innerHTML = localStorage.getItem('yourScore');
-    document.getElementById('compScore').innerHTML = localStorage.getItem('compScore');
+    if(localStorage.getItem('yourScore')) {
+      document.getElementById('yourScore').innerHTML = localStorage.getItem('yourScore');
+      document.getElementById('compScore').innerHTML = localStorage.getItem('compScore');
+    }
 
     function comp() {
         let a = ['rock','paper','scissor'];
