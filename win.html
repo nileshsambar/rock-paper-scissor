@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body style="background-color: #8CC461;">
+    <div class="w-full h-full flex justify-center flex-col items-center my-5">
+        
+        
+      <img id="kon" style="margin: 20px auto;" src="win.png" alt="win">
+  
+      
+        <div id="againButton" onclick="window.location.href = 'index.html'" style="
+    background-color: white;
+    padding: 6px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+">Play Again</div>
+   
+
+       
+    
+
+    <div id="rules" onclick="openRule()" class="cursor-pointer border-2 border-white bottom-3 fixed px-5 py-1 right-4 rounded-lg text-white">
+        RULES
+    </div>
+
+    <div id="popup" style="display: none;">
+      <p style="text-align: center; margin-bottom: 20px; font-size: xx-large;">Game Rules</p>
+      <ul>
+        <li>Rock beats scissors, scissors beat paper, and paper beats rock.</li>
+        <li>Agree ahead of time whether you’ll count off “rock, paper, scissors, shoot” or just “rock, paper, scissors.”</li>
+        <li>Use rock, paper, scissors to settle minor decisions or simply play to pass the time.</li>
+        <li>If both players lay down the same hand, each player lays down another hand.</li>
+      </ul>
+      <div onclick="openRule()" id="closeButton">
+        <img src="close.png" alt="close">
+      </div>
+    </div>
+
+<script>
+    
+
+    // open rules
+    const popup = document.getElementById('popup');
+
+    function openRule() {
+      if(popup.style.display == 'none') {
+        popup.style.display = 'block';
+        console.log('none');
+      } else {
+        console.log('block');
+        popup.style.display = 'none';
+      }   
+    }
+
+</script>
+
+
+
+    
+
+<style>
+    #closeButton {
+      position: absolute;
+      top:-30px;
+      right:-10px;
+      width: 55px;
+      height: 55px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid white;
+      border-radius: 50%; 
+
+    }
+    #popup {
+      position: fixed;
+      right: 1%;
+      bottom: 10%;
+      width: 300px;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1000;
+      background-color: #004429;
+      color: white;
+      border: 10px solid white;
+    }
+   
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #7ece73;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+
+ 
+    
+
+    #kon {
+      border: 1px solid greenyellow;
+      padding: 10px;
+      border-radius: 20px;
+    }
+
+
+  
+
+    /* Rules list  */
+    ul {
+      list-style: none;
+      padding: 0; 
+    }
+    li {
+      margin-bottom: 15px; 
+      display: flex;
+      align-items: flex-start;
+    }
+    li::before {
+      content: "■"; 
+      color: #FFD700; 
+      font-size: 14px; 
+      margin-right: 10px; 
+    }
+
+    @media screen and (max-width: 500px) {
+      #kon {
+        max-width: 80%;
+      }
+    }
+
+    
+  </style>
+
+
+</body>
+</html>

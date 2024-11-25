@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body style="background-color: #8CC461;">
+    <div class="w-full h-full flex justify-center flex-col items-center my-5">
+      <div id="scores" class="flex rounded-2xl justify-between text-white border-2 border-white p-2 my-5 mx-5 max-w-m">
+        <div id="rpsss" style="font-family: 'Courier New', Courier, monospace;" class="sm:mr-10 flex flex-col items-start justify-around">
+            <b class="text-2xl sm:text-3xl">Rock </b>
+            <b class="text-2xl sm:text-3xl">Paper </b>
+            <b class="text-2xl sm:text-3xl">Scissors</b>
+        </div>
+        <div class="grid mx-3 items-center grid-rows-2 text-center bg-white text-black p-2 rounded-xl">
+            <div class="text-xs sm:text-xl">COMPUTER</div>
+            <div class="text-xs sm:text-xl">SCORE</div>
+            <div id="compScore" style="font-size: xx-large; font-weight: bold;">0</div>
+        </div>
+        <div class="grid mx-3 items-center grid-rows-2 text-center bg-white text-black p-2 rounded-xl">
+            <div class="text-xs sm:text-xl">YOUR</div>
+            <div class="text-xs sm:text-xl">SCORE</div>
+            <div id="yourScore" style="font-size: xx-large; font-weight: bold;">0</div>
+        </div>
+    </div>
+        
+        
+    <!-- Game Choices -->
+    <div class="triangle-container">
+
+      <div id="status"> 
+
+        <div id="youWin" style="
+    text-align: center;
+    color: white;
+" class="text-xl sm:text-3xl">YOU WIN</div>
+        <div style="
+    text-align: center;
+    margin-bottom: 15px;
+    color: white;
+" class="text-xl sm:text-3xl"> AGAINST PC </div>
+        <div id="againButton" onclick="window.location.href = 'index.html'" style="
+    background-color: white;
+    padding: 6px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+">Play Again</div>
+    </div>
+
+        <div class="node rock cursor-pointer">
+          <!-- Rings Animation divs -->
+      <div id="youRing" style="display: none;" class="multi-ring">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+
+          <p id="youPick">YOU PICKED</p>
+          <img id="us" src="rock.png" alt="Rock">
+        </div>
+        
+        <div class="node scissors cursor-pointer">
+          <!-- Rings Animation divs -->
+      <div id="compRing" style="display: none;" class="multi-ring">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+
+          <p style="
+    position: absolute;
+    top: -50px;
+    width: 200px;
+    text-align: center;
+    color: white;
+">COMPUTER PICKED</p>
+          <img id="co" src="scissor.png" alt="Scissors">
+        </div>
+      </div>
+
+      
+      
+      
+      
+      <style>
+        .multi-ring {
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          z-index: -1;
+        }
+        
+        .ring {
+          background-color:#38992fcf;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border: 1px solid rgb(51, 181, 51);
+          border-radius: 50%;
+          animation: scale-ring 2s infinite;
+        }
+    
+      .ring:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      
+      .ring:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      
+      @keyframes scale-ring {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+        }
+      }
+      </style>
+
+  </div>
+
+<!-- Rules and next button  -->
+    <div id="rules" onclick="openRule()" class="cursor-pointer border-2 border-white bottom-3 fixed px-5 py-1 left-4 right-auto sm:left-auto sm:right-28 rounded-lg text-white">
+        RULES
+    </div>
+    <div id="next" style="display: none;" onclick="openWin()" class="cursor-pointer border-2 border-white bottom-3 fixed px-5 py-1 right-4 rounded-lg text-white">
+      NEXT
+  </div>
+
+    <div id="popup" style="display: none;">
+      <p style="text-align: center; margin-bottom: 20px; font-size: xx-large;">Game Rules</p>
+      <ul>
+        <li>Rock beats scissors, scissors beat paper, and paper beats rock.</li>
+        <li>Agree ahead of time whether you’ll count off “rock, paper, scissors, shoot” or just “rock, paper, scissors.”</li>
+        <li>Use rock, paper, scissors to settle minor decisions or simply play to pass the time.</li>
+        <li>If both players lay down the same hand, each player lays down another hand.</li>
+      </ul>
+      <div onclick="openRule()" id="closeButton">
+        <img src="close.png" alt="close">
+      </div>
+    </div>
+
+<script>
+
+    document.getElementById('yourScore').innerHTML = localStorage.getItem('yourScore');
+    document.getElementById('compScore').innerHTML = localStorage.getItem('compScore');
+
+
+    let user = localStorage.getItem('user');
+    let comp = localStorage.getItem('comp');
+    
+    let u = document.getElementById('us')
+    let c = document.getElementById('co')
+
+    u.src = user + '.png';
+    c.src = comp + '.png';
+
+    document.getElementsByClassName('rock')[0].style.borderColor = getColor(user);
+    document.getElementsByClassName('scissors')[0].style.borderColor = getColor(comp);
+
+    function getColor(d) {
+      console.log(d);
+      if(d == 'rock') {
+         return '#0074B6';
+      } else if (d == 'paper') {
+        return '#FFA943';
+      } else {
+        return '#BD00FF';
+      }
+    }
+
+    // open rules
+    const popup = document.getElementById('popup');
+
+    function openRule() {
+      if(popup.style.display == 'none') {
+        popup.style.display = 'block';
+        console.log('none');
+      } else {
+        console.log('block');
+        popup.style.display = 'none';
+      }   
+    }
+
+    switch (localStorage.getItem('winner')) {
+      case 'Computer':
+        document.getElementById('youWin').innerHTML = 'YOU LOST';
+        document.getElementById('againButton').innerHTML = 'PLAY AGAIN';
+        document.getElementById('compRing').style.display = 'block';
+        let rings = document.querySelectorAll('.ring');
+        rings.forEach((e) => {
+          e.style.backgroundColor = getColor(comp);
+          e.style.borderColor = getColor(comp);
+        });
+        
+        break;
+      case 'User':
+        document.getElementById('againButton').innerHTML = 'PLAY AGAIN';
+        document.getElementById('youWin').innerHTML = 'YOU WIN';
+        document.getElementById('next').style.display = 'block';
+        document.getElementById('rules').classList.remove('right-4')
+        document.getElementById('rules').classList.add('right-28')
+        document.getElementById('youRing').style.display = 'block';
+        let ring = document.querySelectorAll('.ring');
+        ring.forEach((e) => {
+          e.style.backgroundColor = getColor(user);
+          e.style.borderColor = getColor(user);
+        });
+        break;
+      case 'Tie':
+        document.getElementById('againButton').innerHTML = 'REPLAY';
+        document.getElementById('youWin').innerHTML = 'TIE UP';
+        console.log('Tie');
+        break;
+      
+    
+      default:
+        break;
+    }
+
+    function openWin() {
+      window.location.href = 'win.html';
+    }
+</script>
+
+
+
+    
+
+<style>
+    #closeButton {
+      position: absolute;
+      top:-30px;
+      right:-10px;
+      width: 55px;
+      height: 55px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid white;
+      border-radius: 50%; 
+
+    }
+    #popup {
+      position: fixed;
+      right: 1%;
+      bottom: 10%;
+      width: 300px;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1000;
+      background-color: #004429;
+      color: white;
+      border: 10px solid white;
+    }
+   
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #7ece73;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+
+ 
+    .triangle-container {
+      position: relative;
+      width: 600px;
+      height: 300px;
+      margin: 20px auto;
+    }
+
+    .node {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .node img {
+      max-width: 60%;
+    }
+
+    .rock {
+        z-index: 10;
+        top: 45%;
+        left: 18%;
+        transform: translateX(-50%);
+        border: 12px solid #0074B6;
+    }
+
+
+    .scissors {
+        z-index: 10;
+        top: 63%;
+        right: 0;
+        transform: translateY(-50%);
+        border: 12px solid #BD00FF;
+    }
+
+    #status {
+      position: absolute;
+      left: 40%;
+      top: 35%;
+      z-index: 12;
+    }
+  
+
+    /* Rules list  */
+    ul {
+      list-style: none;
+      padding: 0; 
+    }
+    li {
+      margin-bottom: 15px; 
+      display: flex;
+      align-items: flex-start;
+    }
+    li::before {
+      content: "■"; 
+      color: #FFD700; 
+      font-size: 14px; 
+      margin-right: 10px; 
+    }
+
+    #youPick {
+      position: absolute;
+      bottom: 100px;
+      width: 100px;
+      text-align: center;
+      color: white;
+    }
+
+
+    @media screen and (max-width: 500px) {
+      #scores {
+        width: 90%;
+        top: 0;
+        position: absolute;
+      }
+      #rpsss {
+        font-size: medium;
+      }
+      .triangle-container {
+        width: 100vw;
+
+      }
+      .rock {
+        left:50%;
+        top: 100%;
+      }
+      .scissors {
+        left:50%;
+        top: 0;
+        transform: translateY(0) translateX(-50%);
+      }
+      #status {
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%);
+      }
+      #youPick {
+        bottom: -50px;
+      }
+    }
+
+    
+  </style>
+
+
+</body>
+</html>
